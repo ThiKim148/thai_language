@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Khóa học Tiếng Thái</title>
+    <link rel="stylesheet" href="{% static 'homepage/style.css' %}">
+    <style>
+        .courses-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .course-card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-card h3 {
+            color: #006699;
+            margin-bottom: 10px;
+        }
+
+        .course-card p {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .course-card button {
+            padding: 10px 15px;
+            background-color: #006699;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .course-card button:hover {
+            background-color: #004466;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'courses' %}">Courses</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'weather_page' %}">Weather</a></li>
+            </ul>
+        </div>
+
+        <!-- Nội dung chính -->
+        <div class="main-content">
+            <h1>Courses list</h1>
+            <div class="courses-container">
+                {% for courses in courses %}
+                <div class="course-card">
+                    <h3>{{ courses.title }}</h3>
+                    <p>{{ courses.description }}</p>
+                    <button>Đăng ký</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

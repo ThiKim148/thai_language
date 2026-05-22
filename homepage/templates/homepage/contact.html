@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Liên hệ - Học Tiếng Thái Trực Tuyến</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
+</head>
+
+<body>
+  <div class="container">
+    <!-- Sidebar giữ nguyên -->
+    <div class="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'courses' %}">Courses</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+        <li><a href="{% url 'weather_page' %}">Weather</a></li>
+      </ul>
+    </div>
+
+    <!-- Nội dung chính -->
+    <div class="main-content">
+      <h1>Contact us</h1>
+      <p>
+        If you have any questions or need support, please fill in the
+        information in the form below:
+      </p>
+
+      <form method="post">
+        {% csrf_token %}
+        <label for="name">Full name:</label><br />
+        <input type="text" id="name" name="name" required /><br /><br />
+
+        <label for="email">Email:</label><br />
+        <input type="email" id="email" name="email" required /><br /><br />
+
+        <label for="message">Message:</label><br />
+        <textarea id="message" name="message" rows="5" required></textarea><br /><br />
+
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

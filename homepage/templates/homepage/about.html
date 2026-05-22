@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Giới thiệu - Học Tiếng Thái Trực Tuyến</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'courses' %}">Courses</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+        <li><a href="{% url 'weather_page' %}">Weather</a></li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <h1>About us</h1>
+      <p>
+        The Thai language learning website is built to help students access
+        the Thai language easily, flexibly and effectively.
+      </p>
+
+      <h2>Mission</h2>
+      <p>
+        We want to bring you a modern learning experience, combining theory
+        and practice, helping you communicate confidently in Thai in many
+        situations.
+      </p>
+
+      <h2>Lecturer Team</h2>
+      <p>
+        Our team of experienced instructors, who have lived and worked in
+        Thailand, will support you throughout your studies.
+      </p>
+
+      <h2>Learning Method</h2>
+      <ul>
+        <li>Learn through video</li>
+        <li>Practice exercises and tests</li>
+        <li>Online discussion with lecturers</li>
+        <li>Rich reference materials</li>
+      </ul>
+    </div>
+  </div>
+</body>
+
+</html>

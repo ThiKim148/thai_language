@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Theo dõi thời tiết</title>
+    <link rel="stylesheet" href="{% static 'homepage/style.css' %}">
+    <style>
+        .weather-container {
+            max-width: 500px;
+            margin: 30px auto;
+            text-align: center;
+            background: linear-gradient(135deg, #e0f7fa, #ffffff);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .weather-container::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, #00c6ff, #0072ff, #00c6ff);
+            animation: rotate 8s linear infinite;
+            z-index: 0;
+        }
+
+        .weather-container::after {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        .weather-container * {
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .weather-container input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .weather-container button {
+            padding: 10px 15px;
+            background-color: #006699;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        .weather-container button:hover {
+            background-color: #004466;
+            transform: scale(1.05);
+        }
+
+        #weather-result {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        #weather-result h2 {
+            color: #006699;
+            margin-bottom: 10px;
+        }
+
+        #weather-result p {
+            margin: 5px 0;
+            font-size: 15px;
+        }
+
+        .weather-container img {
+            width: 100px;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .raindrop {
+            position: absolute;
+            top: -20px;
+            width: 5px;
+            height: 15px;
+            background: #00c6ff;
+            border-radius: 50%;
+            animation: rain 3s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes rain {
+            0% {
+                top: -20px;
+                opacity: 0.6;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        .sunray {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 255, 0, 0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -40px;
+            right: -40px;
+            animation: shine 4s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'courses' %}">Courses</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'weather_page' %}">Weather</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <h1>Weather</h1>
+            <div class="weather-container">
+                <div class="raindrop" style="left:50px;"></div>
+                <div class="raindrop" style="left:150px; animation-delay:1s;"></div>
+                <div class="sunray"></div>
+                <input type="text" id="city" placeholder="Enter City Name" />
+                <button onclick="getWeather()">Get Weather</button>
+
+                <div id="weather-result" style="margin-top:20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function getWeather() {
+            const city = document.getElementById("city").value || "Hanoi";
+            const response = await fetch(`/api/weather/?city=${city}`);
+            const data = await response.json();
+
+            const resultDiv = document.getElementById("weather-result");
+            const container = document.querySelector(".weather-container");
+
+            document.querySelectorAll(".raindrop, .sunray").forEach(el => el.remove());
+
+            if (data.error) {
+                resultDiv.innerHTML = `<p style="color:red">${data.error}</p>`;
+            } else {
+                resultDiv.innerHTML = `
+                <h2>${data.city}</h2>
+                <p>Nhiệt độ: ${data.temperature}°C</p>
+                <p>Độ ẩm: ${data.humidity}%</p>
+                <p>Áp suất: ${data.pressure} hPa</p>
+                <p>Thời tiết: ${data.description}</p>
+                <img src="https://openweathermap.org/img/wn/${data.icon}@2x.png" alt="icon">
+            `;
+
+                const desc = data.description.toLowerCase();
+                if (desc.includes("mưa")) {
+                    for (let i = 0; i < 10; i++) {
+                        const drop = document.createElement("div");
+                        drop.className = "raindrop";
+                        drop.style.left = Math.random() * 480 + "px";
+                        drop.style.animationDelay = (Math.random() * 2) + "s";
+                        container.appendChild(drop);
+                    }
+                } else if (desc.includes("nắng") || desc.includes("trời quang")) {
+                    const sun = document.createElement("div");
+                    sun.className = "sunray";
+                    container.appendChild(sun);
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
