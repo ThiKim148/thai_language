@@ -6,6 +6,69 @@
   <title>Giới thiệu - Học Tiếng Thái Trực Tuyến</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
+  <style>
+    .main-content {
+      flex-grow: 1;
+      padding: 40px;
+      min-height: 100vh;
+    }
+
+    .main-content h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-align: center;
+      border-bottom: 3px solid #8dc572;
+      display: inline-block;
+      padding-bottom: 10px;
+    }
+
+    .main-content h2 {
+      font-size: 1.5em;
+      color: #ffffff;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .main-content h2::before {
+      content: "★";
+      color: #8dc572;
+      margin-right: 8px;
+    }
+
+    .main-content p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #444;
+      margin-bottom: 15px;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-content ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 15px;
+    }
+
+    .main-content ul li {
+      background: #fff;
+      margin-bottom: 10px;
+      padding: 12px 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      font-size: 15px;
+      color: #333;
+      transition: transform 0.3s ease;
+    }
+
+    .main-content ul li:hover {
+      transform: translateX(5px);
+      background-color: #f0f9f4;
+    }
+  </style>
 </head>
 
 <body>
@@ -13,40 +76,49 @@
     <div class="sidebar">
       <h2>Menu</h2>
       <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'courses' %}">Courses</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-        <li><a href="{% url 'contact' %}">Contact</a></li>
-        <li><a href="{% url 'weather_page' %}">Weather</a></li>
+        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+          <a href="{% url 'home' %}">Trang chủ</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+          <a href="{% url 'courses' %}">Khóa học</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+          <a href="{% url 'about' %}">About</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+          <a href="{% url 'contact' %}">Contact</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
+          <a href="{% url 'weather_page' %}">Weather</a>
+        </li>
       </ul>
     </div>
 
     <div class="main-content">
-      <h1>About us</h1>
+      <h1>Về chúng tôi</h1>
       <p>
-        The Thai language learning website is built to help students access
-        the Thai language easily, flexibly and effectively.
+        Website học tiếng Thái được xây dựng để giúp học viên dễ dàng, linh hoạt và hiệu quả trong việc tiếp cận tiếng
+        Thái.
       </p>
 
-      <h2>Mission</h2>
+      <h2>Sứ mệnh</h2>
       <p>
-        We want to bring you a modern learning experience, combining theory
-        and practice, helping you communicate confidently in Thai in many
-        situations.
+        Chúng tôi mong muốn mang đến cho bạn trải nghiệm học tập hiện đại, kết hợp lý thuyết và thực hành, giúp bạn giao
+        tiếp tiếng Thái tự tin trong nhiều tình huống.
       </p>
 
-      <h2>Lecturer Team</h2>
+      <h2>Đội ngũ giảng viên</h2>
       <p>
-        Our team of experienced instructors, who have lived and worked in
-        Thailand, will support you throughout your studies.
+        Đội ngũ giảng viên giàu kinh nghiệm, đã sinh sống và làm việc tại Thái Lan, sẽ hỗ trợ bạn trong suốt quá trình
+        học.
       </p>
 
-      <h2>Learning Method</h2>
+      <h2>Phương pháp học</h2>
       <ul>
-        <li>Learn through video</li>
-        <li>Practice exercises and tests</li>
-        <li>Online discussion with lecturers</li>
-        <li>Rich reference materials</li>
+        <li>Học qua video</li>
+        <li>Luyện tập bài tập và kiểm tra</li>
+        <li>Thảo luận trực tuyến với giảng viên</li>
+        <li>Tài liệu tham khảo phong phú</li>
       </ul>
     </div>
   </div>

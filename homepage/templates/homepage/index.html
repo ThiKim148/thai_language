@@ -10,40 +10,104 @@
 
 <body>
   <div class="container">
-    <!-- Sidebar -->
     <div class="sidebar">
       <h2>Menu</h2>
       <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'courses' %}">Courses</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-        <li><a href="{% url 'contact' %}">Contact</a></li>
-        <li><a href="{% url 'weather_page' %}">Weather</a></li>
+        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+          <a href="{% url 'home' %}">Trang chủ</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+          <a href="{% url 'courses' %}">Khóa học</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+          <a href="{% url 'about' %}">Về chúng tôi</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+          <a href="{% url 'contact' %}">Liên hệ</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
+          <a href="{% url 'weather_page' %}">Thời tiết</a>
+        </li>
       </ul>
     </div>
 
-    <!-- Nội dung chính -->
     <div class="main-content">
-      <h1>Welcome to Thai Learning website</h1>
-      <p>
-        You can start learning vocabulary, grammar and communication today!
-      </p>
+      <h1 id="typing-title" class="typing"></h1>
+      <p id="typing-text" class="typing"></p>
 
-      <!-- Block card khóa học -->
       <div class="courses-block">
-        <h2>Choose a course by topic</h2>
+        <h2>Chọn môt chủ đề bạn muốn học</h2>
         <div class="card-container">
           {% for course in courses %}
           <div class="card">
             <h3>{{ course.title }}</h3>
             <p>{{ course.description }}</p>
-            <a href="{% url 'courses' %}" class="btn">See more</a>
+            <a href="{% url 'courses' %}" class="btn">Xem thêm</a>
           </div>
           {% endfor %}
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    function typeWriterTogether(titleId, textId, titleText, pText, speed, delay) {
+      let i = 0; // index cho h1
+      let j = 0; // index cho p
+      let isDeleting = false;
+
+      function typing() {
+        const titleEl = document.getElementById(titleId);
+        const textEl = document.getElementById(textId);
+
+        if (!isDeleting) {
+          // gõ h1 và p cùng lúc
+          if (i < titleText.length) {
+            titleEl.innerHTML = titleText.substring(0, i + 1);
+          }
+          if (j < pText.length) {
+            textEl.innerHTML = pText.substring(0, j + 1);
+          }
+
+          if (i < titleText.length) i++;
+          if (j < pText.length) j++;
+
+          // khi cả hai đều gõ xong thì chuyển sang xóa
+          if (i === titleText.length && j === pText.length) {
+            isDeleting = true;
+            setTimeout(() => {
+              titleEl.style.opacity = 0;
+              textEl.style.opacity = 0;
+              setTimeout(() => {
+                typing();
+              }, 500);
+            }, delay);
+            return;
+          }
+        } else {
+          titleEl.innerHTML = "";
+          textEl.innerHTML = "";
+          i = 0;
+          j = 0;
+          isDeleting = false;
+          titleEl.style.opacity = 1;
+          textEl.style.opacity = 1;
+        }
+        setTimeout(typing, speed);
+      }
+      typing();
+    }
+
+    typeWriterTogether(
+      "typing-title",
+      "typing-text",
+      "Chào mừng bạn đến với website học tiếng Thái",
+      "Bạn có thể bắt đầu học từ vựng, ngữ pháp và giao tiếp ngay hôm nay!",
+      80,
+      1000
+    );
+  </script>
+
 </body>
 
 </html>

@@ -17,6 +17,12 @@ def about(request):
 def contact(request):
     return render(request, "homepage/contact.html")
 
+def course_detail(request, course_id):
+    course = next((c for c in COURSES if c["id"] == course_id), None)
+    return render(request, "homepage/course_detail.html", {"course": course})
+
+
+
 # API weather
 OPENWEATHER_API_KEY = settings.OPENWEATHER_API_KEY
 
