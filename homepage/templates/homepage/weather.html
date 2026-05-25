@@ -177,19 +177,33 @@
         <div class="sidebar">
             <h2>Menu</h2>
             <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'courses' %}">Courses</a></li>
-                <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-                <li><a href="{% url 'weather_page' %}">Weather</a></li>
+                <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    <a href="{% url 'home' %}">Trang chủ</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+                    <a href="{% url 'courses' %}">Khóa học</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                    <a href="{% url 'about' %}">Về chúng tôi</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                    <a href="{% url 'contact' %}">Liên hệ</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
+                    <a href="{% url 'weather_page' %}">Thời tiết</a>
+                </li>
             </ul>
         </div>
 
         <div class="main-content">
             <h1>Weather</h1>
             <div class="weather-container">
-                <div class="raindrop" style="left:50px;"></div>
-                <div class="raindrop" style="left:150px; animation-delay:1s;"></div>
+                <div class="raindrop" style="left:30px; animation-delay: 0.5s;"></div>
+                <div class="raindrop" style="left:50px; animation-delay: 3s;"></div>
+                <div class="raindrop" style="left:150px; animation-delay:2s;"></div>
+                <div class="raindrop" style="left:180px; animation-delay: 1.5s;"></div>
+                <div class="raindrop" style="left:250px; animation-delay: 2s;"></div>
+                <div class="raindrop" style="left:350px; animation-delay: 2.5s;"></div>
                 <div class="sunray"></div>
                 <input type="text" id="city" placeholder="Enter City Name" />
                 <button onclick="getWeather()">Get Weather</button>

@@ -10,38 +10,46 @@
 
 <body>
   <div class="container">
-    <!-- Sidebar giữ nguyên -->
     <div class="sidebar">
       <h2>Menu</h2>
       <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'courses' %}">Courses</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-        <li><a href="{% url 'contact' %}">Contact</a></li>
-        <li><a href="{% url 'weather_page' %}">Weather</a></li>
+        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+          <a href="{% url 'home' %}">Trang chủ</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+          <a href="{% url 'courses' %}">Khóa học</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+          <a href="{% url 'about' %}">Về chúng tôi</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+          <a href="{% url 'contact' %}">Liên hệ</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
+          <a href="{% url 'weather_page' %}">Thời tiết</a>
+        </li>
       </ul>
     </div>
 
-    <!-- Nội dung chính -->
     <div class="main-content">
-      <h1>Contact us</h1>
-      <p>
-        If you have any questions or need support, please fill in the
-        information in the form below:
+      <h1 style="color: #fff;">Liên hệ với chúng tôi</h1>
+      <p style="color: #fff;">
+        Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ, vui lòng điền thông tin vào
+        biểu mẫu dưới đây:
       </p>
 
       <form method="post">
         {% csrf_token %}
-        <label for="name">Full name:</label><br />
+        <label for="name" style="color: #fff;">Họ và tên:</label><br />
         <input type="text" id="name" name="name" required /><br /><br />
 
-        <label for="email">Email:</label><br />
+        <label for="email" style="color: #fff;">Email:</label><br />
         <input type="email" id="email" name="email" required /><br /><br />
 
-        <label for="message">Message:</label><br />
+        <label for="message" style="color: #fff;">Message:</label><br />
         <textarea id="message" name="message" rows="5" required></textarea><br /><br />
 
-        <button type="submit" class="btn">Send Message</button>
+        <button type="submit" class="btn">Gửi</button>
       </form>
     </div>
   </div>

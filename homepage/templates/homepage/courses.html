@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Khóa học Tiếng Thái</title>
+    <title>Khóa học - Khóa học Tiếng Thái</title>
     <link rel="stylesheet" href="{% static 'homepage/style.css' %}">
     <style>
         .courses-container {
@@ -59,27 +59,37 @@
 
 <body>
     <div class="container">
-        <!-- Sidebar -->
         <div class="sidebar">
             <h2>Menu</h2>
             <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'courses' %}">Courses</a></li>
-                <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-                <li><a href="{% url 'weather_page' %}">Weather</a></li>
+                <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    <a href="{% url 'home' %}">Trang chủ</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+                    <a href="{% url 'courses' %}">Khóa học</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                    <a href="{% url 'about' %}">Về chúng tôi</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                    <a href="{% url 'contact' %}">Liên hệ</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
+                    <a href="{% url 'weather_page' %}">Thời tiết</a>
+                </li>
             </ul>
         </div>
 
-        <!-- Nội dung chính -->
         <div class="main-content">
-            <h1>Courses list</h1>
+            <h1>Danh sách các khóa học</h1>
             <div class="courses-container">
-                {% for courses in courses %}
+                {% for course in courses %}
                 <div class="course-card">
-                    <h3>{{ courses.title }}</h3>
-                    <p>{{ courses.description }}</p>
-                    <button>Đăng ký</button>
+                    <h3>{{ course.title }}</h3>
+                    <p>{{ course.description }}</p>
+                    <a href="{% url 'course_detail' course.id %}" class="btn">
+                        <button type="button" class="btn">Xem chi tiết</button>
+                    </a>
                 </div>
                 {% endfor %}
             </div>

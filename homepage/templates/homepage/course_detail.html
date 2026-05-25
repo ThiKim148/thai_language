@@ -1,0 +1,103 @@
+{% load static %}
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ course.title }} - Chi tiết khóa học</title>
+    <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
+    <style>
+        .course-detail {
+            width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-detail h1 {
+            color: #006699;
+            margin-bottom: 20px;
+        }
+
+        .course-meta p {
+            margin: 5px 0;
+            font-size: 15px;
+            color: #444;
+        }
+
+        .course-detail ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .course-detail ul li {
+            background: #f9f9f9;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .enroll-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #006699;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .enroll-btn:hover {
+            background-color: #004466;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    <a href="{% url 'home' %}">Trang chủ</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+                    <a href="{% url 'courses' %}">Khóa học</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                    <a href="{% url 'about' %}">Về chúng tôi</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                    <a href="{% url 'contact' %}">Liên hệ</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
+                    <a href="{% url 'weather_page' %}">Thời tiết</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="course-detail">
+            <h1>{{ course.title }}</h1>
+            <p>{{ course.description }}</p>
+
+            <div class="course-meta">
+                <p><strong>Cấp độ:</strong> {{ course.level }}</p>
+                <p><strong>Thời lượng:</strong> {{ course.duration }}</p>
+                <p><strong>Giảng viên:</strong> {{ course.lecturer }}</p>
+            </div>
+
+            <h2>Bạn sẽ học được</h2>
+            <ul>
+                {% for item in course.outcomes %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+
+            <a href="#" class="enroll-btn">Đăng ký ngay</a>
+        </div>
+    </div>
+</body>
+
+</html>
