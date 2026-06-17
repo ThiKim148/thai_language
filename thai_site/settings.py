@@ -119,3 +119,5 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 OPENWEATHER_API_KEY = config("OPENWEATHER_API_KEY")
+
+AUTH_USER_MODEL = "homepage.User"

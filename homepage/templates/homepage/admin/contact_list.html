@@ -1,0 +1,68 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+  Feedback khách hàng
+{% endblock %}
+
+{% block admin_css %}
+  .feedback { 
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 8px; 
+    margin-bottom: 15px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  }
+
+  .feedback strong { 
+    color: #006699; 
+  }
+
+  .feedback-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 8px; 
+  }
+
+  .feedback-message { 
+    margin: 10px 0; 
+    line-height: 1.6; 
+  }
+
+  .feedback-date { 
+    color: #666; 
+    font-size: 0.9rem; 
+  }
+
+  .page-title { 
+    margin-bottom: 25px; 
+    color: #004466; 
+  }
+
+  .empty-message { 
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 8px; 
+    text-align: center; 
+    color: #666; 
+  }
+{% endblock %}
+
+{% block admin_content %}
+  <h1 style="color: #004466;" class="page-title">💬 Feedback khách hàng</h1>
+
+  {% for contact in contacts %}
+    <div class="feedback">
+      <div class="feedback-header">
+        <strong>{{ contact.name }}</strong>
+        <span>{{ contact.email }}</span>
+      </div>
+
+      <div class="feedback-message">{{ contact.message }}</div>
+
+      <div class="feedback-date">{{ contact.created_at }}</div>
+    </div>
+  {% empty %}
+    <div class="empty-message">Chưa có feedback nào.</div>
+  {% endfor %}
+{% endblock %}

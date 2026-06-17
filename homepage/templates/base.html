@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Trang{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'homepage/style.css' %}">
+  {% block extra_css %}{% endblock %}
+  <style>
+    .auth-buttons {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+    .auth-buttons a {
+      margin-left: 10px;
+      padding: 8px 12px;
+      background-color: #006699;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .auth-buttons a:hover {
+      background-color: #004466;
+    }
+  </style>
+</head>
+<body>
+  <!-- Góc phải hiển thị nút -->
+  <div class="auth-buttons">
+    {% if request.user.is_authenticated %}
+      <a href="{% url 'logout' %}">Đăng xuất</a>
+    {% else %}
+      <a href="{% url 'login' %}">Đăng nhập</a>
+      <a href="{% url 'register' %}">Đăng ký</a>
+    {% endif %}
+  </div>
+
+  <!-- Nội dung riêng của từng trang -->
+  {% block content %}{% endblock %}
+</body>
+</html>

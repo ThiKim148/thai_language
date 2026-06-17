@@ -1,0 +1,109 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block admin_css %}
+.page-title {
+  color: #004466;
+  margin-bottom: 25px;
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  flex: 1;
+  background: #006699;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.stat-card h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.stat-card p {
+  margin-top: 10px;
+}
+
+.chart-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.chart-title {
+  margin-bottom: 20px;
+  color: #004466;
+}
+{% endblock %}
+
+{% block admin_content %}
+<h1 style="color: #004466;" class="page-title">📊 Dashboard</h1>
+
+<div class="stats">
+  <div class="stat-card">
+    <h2>{{ stats.total_courses }}</h2>
+    <p>Khóa học</p>
+  </div>
+
+  <div class="stat-card">
+    <h2>{{ stats.total_enrollments }}</h2>
+    <p>Lượt đăng ký</p>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h2 class="chart-title">
+    Biểu đồ đăng ký theo khóa học
+  </h2>
+
+  <canvas id="enrollmentChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('enrollmentChart').getContext('2d');
+
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: [
+      {% for item in stats.enrollments_per_course %}
+      '{{ item.title }}',
+      {% endfor %}
+    ],
+    datasets: [{
+      label: 'Số lượt đăng ký',
+      data: [
+        {% for item in stats.enrollments_per_course %}
+        {{ item.count }},
+        {% endfor %}
+      ],
+      backgroundColor: '#006699'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: 'Đăng ký theo từng khóa học'
+      }
+    }
+  }
+});
+</script>
+{% endblock %}

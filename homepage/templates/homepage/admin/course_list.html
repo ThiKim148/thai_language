@@ -1,0 +1,120 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+  Quản lý Khóa học
+{% endblock %}
+
+{% block admin_css %}
+  .page-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-top: 35px; 
+    margin-bottom: 20px; 
+  }
+
+  .page-title { color: #004466; 
+    margin: 0; 
+  }
+
+  .btn { display: inline-block; 
+    padding: 8px 14px; 
+    background: #006699; 
+    color: #fff; 
+    border-radius: 4px; 
+    text-decoration: none; 
+    transition: background 0.2s; 
+  }
+
+  .btn:hover { 
+    background: #004466; 
+  }
+
+  .btn-danger { 
+    background: #cc3333; 
+  }
+
+  .btn-danger:hover { 
+    background: #a52a2a; 
+  }
+
+  .table-container { 
+    background: #fff; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  }
+
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+  }
+
+  th { 
+    background: #006699; 
+    color: #fff; 
+    text-align: left; 
+    padding: 14px; 
+  }
+
+  td { 
+    padding: 14px; 
+    border-bottom: 1px solid #eee; 
+  }
+
+  tr:hover { 
+    background: #f8f9fa; 
+  }
+
+  .action-buttons { 
+    display: flex; 
+    gap: 8px; 
+  }
+
+  .empty-row { 
+    text-align: center; 
+    color: #666; 
+  }
+{% endblock %}
+
+{% block admin_content %}
+  <div class="page-header">
+    <h1 style="color: #004466;" class="page-title">📚 Quản lý Khóa học</h1>
+
+    <a href="{% url 'course_create' %}" class="btn">➕ Thêm khóa học</a>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Tiêu đề</th>
+          <th>Giảng viên</th>
+          <th width="180">Hành động</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for course in courses %}
+          <tr>
+            <td>{{ course.title }}</td>
+
+            <td>{{ course.lecturer }}</td>
+
+            <td>
+              <div class="action-buttons">
+                <a href="{% url 'course_edit' course.id %}" class="btn">✏️ Sửa</a>
+
+                <a href="{% url 'course_delete' course.id %}" class="btn btn-danger">🗑️ Xóa</a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3" class="empty-row">Chưa có khóa học nào.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

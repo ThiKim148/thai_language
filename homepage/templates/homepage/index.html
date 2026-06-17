@@ -1,14 +1,11 @@
+{% extends "base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="vi">
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Học Tiếng Thái Trực Tuyến</title>
-  <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
-</head>
+{% block title %}
+  Học Tiếng Thái Trực Tuyến
+{% endblock %}
 
-<body>
+{% block content %}
   <div class="container">
     <div class="sidebar">
       <h2>Menu</h2>
@@ -36,14 +33,14 @@
       <p id="typing-text" class="typing"></p>
 
       <div class="courses-block">
-        <h2>Chọn môt chủ đề bạn muốn học</h2>
+        <h2>Chọn một chủ đề bạn muốn học</h2>
         <div class="card-container">
           {% for course in courses %}
-          <div class="card">
-            <h3>{{ course.title }}</h3>
-            <p>{{ course.description }}</p>
-            <a href="{% url 'courses' %}" class="btn">Xem thêm</a>
-          </div>
+            <div class="card">
+              <h3>{{ course.title }}</h3>
+              <p>{{ course.description }}</p>
+              <a href="{% url 'courses' %}" class="btn">Xem thêm</a>
+            </div>
           {% endfor %}
         </div>
       </div>
@@ -52,62 +49,169 @@
 
   <script>
     function typeWriterTogether(titleId, textId, titleText, pText, speed, delay) {
-      let i = 0; // index cho h1
-      let j = 0; // index cho p
-      let isDeleting = false;
-
+      let i = 0
+      let j = 0
+      let isDeleting = false
+    
       function typing() {
-        const titleEl = document.getElementById(titleId);
-        const textEl = document.getElementById(textId);
-
+        const titleEl = document.getElementById(titleId)
+        const textEl = document.getElementById(textId)
+    
         if (!isDeleting) {
           // gõ h1 và p cùng lúc
           if (i < titleText.length) {
-            titleEl.innerHTML = titleText.substring(0, i + 1);
+            titleEl.innerHTML = titleText.substring(0, i + 1)
           }
           if (j < pText.length) {
-            textEl.innerHTML = pText.substring(0, j + 1);
+            textEl.innerHTML = pText.substring(0, j + 1)
           }
-
-          if (i < titleText.length) i++;
-          if (j < pText.length) j++;
-
+    
+          if (i < titleText.length) i++
+          if (j < pText.length) j++
+    
           // khi cả hai đều gõ xong thì chuyển sang xóa
           if (i === titleText.length && j === pText.length) {
-            isDeleting = true;
+            isDeleting = true
             setTimeout(() => {
-              titleEl.style.opacity = 0;
-              textEl.style.opacity = 0;
+              titleEl.style.opacity = 0
+              textEl.style.opacity = 0
               setTimeout(() => {
-                typing();
-              }, 500);
-            }, delay);
-            return;
+                typing()
+              }, 500)
+            }, delay)
+            return
           }
         } else {
-          titleEl.innerHTML = "";
-          textEl.innerHTML = "";
-          i = 0;
-          j = 0;
-          isDeleting = false;
-          titleEl.style.opacity = 1;
-          textEl.style.opacity = 1;
+          titleEl.innerHTML = ''
+          textEl.innerHTML = ''
+          i = 0
+          j = 0
+          isDeleting = false
+          titleEl.style.opacity = 1
+          textEl.style.opacity = 1
         }
-        setTimeout(typing, speed);
+        setTimeout(typing, speed)
       }
-      typing();
+      typing()
     }
-
+    
     typeWriterTogether(
-      "typing-title",
-      "typing-text",
-      "Chào mừng bạn đến với website học tiếng Thái",
-      "Bạn có thể bắt đầu học từ vựng, ngữ pháp và giao tiếp ngay hôm nay!",
-      80,
+      'typing-title', 
+      'typing-text', 
+      'Chào mừng bạn đến với website học tiếng Thái', 
+      'Bạn có thể bắt đầu học từ vựng, ngữ pháp và giao tiếp ngay hôm nay!', 
+      100, 
       1000
-    );
+    )
   </script>
+{% endblock %}
 
-</body>
 
-</html>
+
+
+
+
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Học Tiếng Thái Trực Tuyến</title>
+    <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+          <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+            <a href="{% url 'home' %}">Trang chủ</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+            <a href="{% url 'courses' %}">Khóa học</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+            <a href="{% url 'about' %}">Về chúng tôi</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+            <a href="{% url 'contact' %}">Liên hệ</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
+            <a href="{% url 'weather_page' %}">Thời tiết</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="main-content">
+        <h1 id="typing-title" class="typing"></h1>
+        <p id="typing-text" class="typing"></p>
+
+        <div class="courses-block">
+          <h2>Chọn môt chủ đề bạn muốn học</h2>
+          <div class="card-container">
+            {% for course in courses %}
+              <div class="card">
+                <h3>{{ course.title }}</h3>
+                <p>{{ course.description }}</p>
+                <a href="{% url 'courses' %}" class="btn">Xem thêm</a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function typeWriterTogether(titleId, textId, titleText, pText, speed, delay) {
+        let i = 0
+        let j = 0
+        let isDeleting = false
+      
+        function typing() {
+          const titleEl = document.getElementById(titleId)
+          const textEl = document.getElementById(textId)
+      
+          if (!isDeleting) {
+            // gõ h1 và p cùng lúc
+            if (i < titleText.length) {
+              titleEl.innerHTML = titleText.substring(0, i + 1)
+            }
+            if (j < pText.length) {
+              textEl.innerHTML = pText.substring(0, j + 1)
+            }
+      
+            if (i < titleText.length) i++
+            if (j < pText.length) j++
+      
+            // khi cả hai đều gõ xong thì chuyển sang xóa
+            if (i === titleText.length && j === pText.length) {
+              isDeleting = true
+              setTimeout(() => {
+                titleEl.style.opacity = 0
+                textEl.style.opacity = 0
+                setTimeout(() => {
+                  typing()
+                }, 500)
+              }, delay)
+              return
+            }
+          } else {
+            titleEl.innerHTML = ''
+            textEl.innerHTML = ''
+            i = 0
+            j = 0
+            isDeleting = false
+            titleEl.style.opacity = 1
+            textEl.style.opacity = 1
+          }
+          setTimeout(typing, speed)
+        }
+        typing()
+      }
+      
+      typeWriterTogether('typing-title', 'typing-text', 'Chào mừng bạn đến với website học tiếng Thái', 'Bạn có thể bắt đầu học từ vựng, ngữ pháp và giao tiếp ngay hôm nay!', 100, 1000)
+    </script>
+  </body>
+</html> {% endcomment %}
+

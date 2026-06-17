@@ -1,13 +1,13 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="vi">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Khóa học - Khóa học Tiếng Thái</title>
-    <link rel="stylesheet" href="{% static 'homepage/style.css' %}">
-    <style>
-        .courses-container {
+{% block title %}
+  Khóa học - Khóa học Tiếng Thái
+{% endblock %}
+
+{% block extra_css %}
+  <style>
+    .courses-container {
             max-width: 1200px;
             margin: 40px auto;
             padding: 20px;
@@ -55,9 +55,9 @@
             background-color: #004466;
         }
     </style>
-</head>
+{% endblock %}
 
-<body>
+{% block content %}
     <div class="container">
         <div class="sidebar">
             <h2>Menu</h2>
@@ -95,6 +95,4 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
+{% endblock %}

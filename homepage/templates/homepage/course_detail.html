@@ -1,103 +1,234 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>{{ course.title }} - Chi tiết khóa học</title>
     <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
     <style>
-        .course-detail {
-            width: 800px;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      .course-detail {
+        width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        border-radius: 10px;
+        background-color: #93c4dc;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .course-detail h1 {
+        color: #006699;
+        margin-bottom: 20px;
+      }
+      
+      .course-meta p {
+        margin: 5px 0;
+        font-size: 15px;
+        color: #444;
+      }
+      
+      .course-detail ul {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .course-detail ul li {
+        background: #f9f9f9;
+        margin-bottom: 8px;
+        padding: 10px;
+        border-radius: 6px;
+        transition: all 0.4s ease;
+        opacity: 0;
+        transform: translateY(10px);
+        animation: fadeInUp 0.6s forwards;
+      }
+      
+      .course-detail ul li:hover {
+        transform: translateX(8px) scale(1.02);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background: #eef7f1;
+      }
+      
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-
-        .course-detail h1 {
-            color: #006699;
-            margin-bottom: 20px;
-        }
-
-        .course-meta p {
-            margin: 5px 0;
-            font-size: 15px;
-            color: #444;
-        }
-
-        .course-detail ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .course-detail ul li {
-            background: #f9f9f9;
-            margin-bottom: 8px;
-            padding: 10px;
-            border-radius: 6px;
-        }
-
-        .enroll-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 20px;
-            background-color: #006699;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-
-        .enroll-btn:hover {
-            background-color: #004466;
-        }
+      }
+      
+      .enroll-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 20px;
+        background-color: #006699;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+      }
+      
+      .enroll-btn:hover {
+        background-color: #004466;
+      }
+      
+      .hidden {
+        display: none;
+      }
+      .form-container,
+      .confirm-container {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 8px;
+        background: #f9f9f9;
+      }
+      #form-title {
+        color: #000000;
+      }
+      #confirm-title {
+        color: #000000;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+      .ipp {
+        width: 100%;
+        padding: 6px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      #save-btn {
+        margin-top: 15px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        width: 100px;
+        background-color: #006699;
+        color: #ffffff;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <h2>Menu</h2>
-            <ul>
-                <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-                    <a href="{% url 'home' %}">Trang chủ</a>
-                </li>
-                <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
-                    <a href="{% url 'courses' %}">Khóa học</a>
-                </li>
-                <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
-                    <a href="{% url 'about' %}">Về chúng tôi</a>
-                </li>
-                <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
-                    <a href="{% url 'contact' %}">Liên hệ</a>
-                </li>
-                <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
-                    <a href="{% url 'weather_page' %}">Thời tiết</a>
-                </li>
-            </ul>
-        </div>
-
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+          <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+            <a href="{% url 'home' %}">Trang chủ</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+            <a href="{% url 'courses' %}">Khóa học</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+            <a href="{% url 'about' %}">Về chúng tôi</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+            <a href="{% url 'contact' %}">Liên hệ</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
+            <a href="{% url 'weather_page' %}">Thời tiết</a>
+          </li>
+        </ul>
+      </div>
+      <div class="main-content">
         <div class="course-detail">
-            <h1>{{ course.title }}</h1>
-            <p>{{ course.description }}</p>
+          <h1>{{ course.title }}</h1>
+          <p>{{ course.description }}</p>
 
-            <div class="course-meta">
-                <p><strong>Cấp độ:</strong> {{ course.level }}</p>
-                <p><strong>Thời lượng:</strong> {{ course.duration }}</p>
-                <p><strong>Giảng viên:</strong> {{ course.lecturer }}</p>
-            </div>
+          <div class="course-meta">
+            <p>
+              <strong>Cấp độ:</strong> {{ course.level }}
+            </p>
+            <p>
+              <strong>Thời lượng:</strong> {{ course.duration }}
+            </p>
+            <p>
+              <strong>Giảng viên:</strong> {{ course.lecturer }}
+            </p>
+          </div>
 
-            <h2>Bạn sẽ học được</h2>
-            <ul>
-                {% for item in course.outcomes %}
-                <li>{{ item }}</li>
-                {% endfor %}
-            </ul>
+          <h2>Bạn sẽ học được</h2>
+          <ul>
+            {% for item in course.outcomes %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
 
-            <a href="#" class="enroll-btn">Đăng ký ngay</a>
+          <a href="#" id="register-btn" class="enroll-btn">Đăng ký ngay</a>
+
+          <!-- Form đăng ký -->
+          <div id="form-container" class="form-container hidden">
+            <h2 id="form-title">Thông tin đăng ký</h2>
+            <label>Họ tên:<input class="ipp" type="text" id="name" /></label>
+            <label>Số điện thoại:<input class="ipp" type="text" id="phone" /></label>
+            <label>Email:<input class="ipp" type="email" id="email" /></label>
+            <button id="save-btn">Save</button>
+          </div>
+
+          <!-- Xác nhận thông tin -->
+          <div id="confirm-container" class="confirm-container hidden">
+            <h2 id="confirm-title">Xác nhận thông tin</h2>
+            <p>
+              <strong>Khóa học:</strong> {{ course.title }}
+            </p>
+            <p>
+              <strong>Họ tên:</strong> <span id="confirm-name"></span>
+            </p>
+            <p>
+              <strong>Số điện thoại:</strong> <span id="confirm-phone"></span>
+            </p>
+            <p>
+              <strong>Email:</strong> <span id="confirm-email"></span>
+            </p>
+            <button id="agree-btn">Đồng ý</button>
+          </div>
         </div>
+      </div>
     </div>
-</body>
 
+    <script>
+      const registerBtn = document.getElementById('register-btn')
+      const formContainer = document.getElementById('form-container')
+      const confirmContainer = document.getElementById('confirm-container')
+      
+      const saveBtn = document.getElementById('save-btn')
+      const agreeBtn = document.getElementById('agree-btn')
+      
+      registerBtn.addEventListener('click', () => {
+        formContainer.classList.remove('hidden')
+      })
+      
+      saveBtn.addEventListener('click', () => {
+        const name = document.getElementById('name').value.trim()
+        const phone = document.getElementById('phone').value.trim()
+        const email = document.getElementById('email').value.trim()
+      
+        // Kiểm tra dữ liệu
+        if (!name || !phone || !email) {
+          alert('⚠️ Vui lòng nhập đầy đủ Họ tên, Số điện thoại và Email!')
+          return
+        }
+      
+        // Kiểm tra định dạng email đơn giản
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailPattern.test(email)) {
+          alert('⚠️ Email không hợp lệ!')
+          return
+        }
+      
+        // Nếu hợp lệ thì hiển thị thông tin xác nhận
+        document.getElementById('confirm-name').textContent = name
+        document.getElementById('confirm-phone').textContent = phone
+        document.getElementById('confirm-email').textContent = email
+      
+        formContainer.classList.add('hidden')
+        confirmContainer.classList.remove('hidden')
+      })
+      
+      agreeBtn.addEventListener('click', () => {
+        alert('🎉 Đăng ký thành công cho khóa học!')
+        confirmContainer.classList.add('hidden')
+      })
+    </script>
+  </body>
 </html>

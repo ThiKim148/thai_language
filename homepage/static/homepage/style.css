@@ -80,8 +80,13 @@ body {
     /* giữ chiều cao cố định cho p */
 }
 
+#typing-text {
+    padding: 0 20px;
+}
+
 .main-content h1 {
     color: #fff;
+    padding: 0 20px;
 }
 
 .main-content h2 {
@@ -92,6 +97,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    padding: 0 20px;
     margin-top: 20px;
 }
 

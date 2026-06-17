@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Thêm/Sửa Khóa học{% endblock %}
+
+{% block extra_css %}
+<style>
+  form {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  button {
+    padding: 10px 15px;
+    background: #006699;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #004466;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>✏️ Thêm/Sửa Khóa học</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Lưu</button>
+</form>
+{% endblock %}

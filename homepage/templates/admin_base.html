@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+  .admin-layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    width: 230px;
+    background: #004466;
+    color: #fff;
+    padding: 20px;
+  }
+
+  .sidebar h2 {
+    color: #ffcc00;
+    margin-bottom: 20px;
+  }
+
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sidebar ul li {
+    margin-bottom: 15px;
+  }
+
+  .sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .sidebar ul li a:hover {
+    color: #ffcc00;
+  }
+
+  .sidebar ul li.active a {
+    color: #ffcc00;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    background: #f5f5f5;
+  }
+
+  {% block admin_css %}
+  {% endblock %}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Admin Menu</h2>
+
+    <ul>
+      <li class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+        <a href="{% url 'admin_dashboard' %}">📊 Dashboard</a>
+      </li>
+
+      <li class="{% if request.resolver_match.url_name == 'course_list' %}active{% endif %}">
+        <a href="{% url 'course_list' %}">📚 Quản lý Khóa học</a>
+      </li>
+
+      <li class="{% if request.resolver_match.url_name == 'contact_list' %}active{% endif %}">
+        <a href="{% url 'contact_list' %}">💬 Feedback khách hàng</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Nội dung từng trang -->
+  <div class="main-content">
+    {% block admin_content %}
+    {% endblock %}
+  </div>
+
+</div>
+{% endblock %}

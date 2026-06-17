@@ -1,11 +1,11 @@
-<!doctype html>
-<html lang="vi">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Giới thiệu - Học Tiếng Thái Trực Tuyến</title>
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
+{% block title %}
+  Giới thiệu - Học Tiếng Thái Trực Tuyến
+{% endblock %}
+
+{% block extra_css %}
   <style>
     .main-content {
       flex-grow: 1;
@@ -69,9 +69,9 @@
       background-color: #f0f9f4;
     }
   </style>
-</head>
+{% endblock %}
 
-<body>
+{% block content %}
   <div class="container">
     <div class="sidebar">
       <h2>Menu</h2>
@@ -122,6 +122,4 @@
       </ul>
     </div>
   </div>
-</body>
-
-</html>
+{% endblock %}

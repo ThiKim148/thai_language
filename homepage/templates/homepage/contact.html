@@ -1,14 +1,55 @@
-<!doctype html>
-<html lang="vi">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Liên hệ - Học Tiếng Thái Trực Tuyến</title>
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
-</head>
+{% block title %}
+  Liên hệ - Học Tiếng Thái Trực Tuyến
+{% endblock %}
 
-<body>
+{% block extra_css %}
+  <style>
+    .toast {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #006699;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      right: 5%;
+      top: 30px;
+      font-size: 15px;
+    }
+    .toast.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @keyframes fadein {
+      from {
+        top: -50px;
+        opacity: 0;
+      }
+      to {
+        top: 30px;
+        opacity: 1;
+      }
+    }
+    @keyframes fadeout {
+      from {
+        top: 30px;
+        opacity: 1;
+      }
+      to {
+        top: -50px;
+        opacity: 0;
+      }
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
   <div class="container">
     <div class="sidebar">
       <h2>Menu</h2>
@@ -33,26 +74,168 @@
 
     <div class="main-content">
       <h1 style="color: #fff;">Liên hệ với chúng tôi</h1>
-      <p style="color: #fff;">
-        Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ, vui lòng điền thông tin vào
-        biểu mẫu dưới đây:
-      </p>
+      <p style="color: #fff;">Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ, vui lòng điền thông tin vào biểu mẫu dưới đây:</p>
 
-      <form method="post">
+      <form method="post" id="contact-form">
         {% csrf_token %}
-        <label for="name" style="color: #fff;">Họ và tên:</label><br />
-        <input type="text" id="name" name="name" required /><br /><br />
+        {% if not request.user.is_authenticated %}
+          <label style="color: #fff;" for="name">Họ và tên:</label><br />
+          <input type="text" id="name" name="name" required /><br /><br />
 
-        <label for="email" style="color: #fff;">Email:</label><br />
-        <input type="email" id="email" name="email" required /><br /><br />
+          <label style="color: #fff;" for="email">Email:</label><br />
+          <input type="email" id="email" name="email" required /><br /><br />
+        {% else %}
+          <p style="color: #fff; width:500px;">Bạn đang đăng nhập. Thông tin liên hệ sẽ được lưu tự động.</p>
+        {% endif %}
 
-        <label for="message" style="color: #fff;">Message:</label><br />
+        <label style="color: #fff;" for="message">Message:</label><br />
         <textarea id="message" name="message" rows="5" required></textarea><br /><br />
 
         <button type="submit" class="btn">Gửi</button>
       </form>
     </div>
   </div>
-</body>
+  <div id="toast">🎉 Gửi liên hệ thành công!</div>
 
-</html>
+  <script>
+    const form = document.getElementById('contact-form')
+    const toast = document.getElementById('toast')
+    
+    form.addEventListener('submit', function (event) {
+      // Nếu bạn muốn gửi thật về server thì bỏ dòng dưới
+      event.preventDefault()
+    
+      // Hiển thị toast
+      toast.className = 'toast show'
+    
+      // Ẩn toast sau 3 giây
+      setTimeout(function () {
+        toast.className = toast.className.replace('show', '')
+      }, 3000)
+    
+      form.reset()
+    })
+  </script>
+{% endblock %}
+
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Liên hệ - Học Tiếng Thái Trực Tuyến</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'homepage/style.css' %}" />
+    <style>
+      .toast {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #006699;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        right: 5%;
+        top: 30px;
+        font-size: 15px;
+      }
+      .toast.show {
+        visibility: visible;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+      @keyframes fadein {
+        from {
+          top: -50px;
+          opacity: 0;
+        }
+        to {
+          top: 30px;
+          opacity: 1;
+        }
+      }
+      @keyframes fadeout {
+        from {
+          top: 30px;
+          opacity: 1;
+        }
+        to {
+          top: -50px;
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+          <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+            <a href="{% url 'home' %}">Trang chủ</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+            <a href="{% url 'courses' %}">Khóa học</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+            <a href="{% url 'about' %}">Về chúng tôi</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+            <a href="{% url 'contact' %}">Liên hệ</a>
+          </li>
+          <li class="{% if request.resolver_match.url_name == 'weather_page' %}active{% endif %}">
+            <a href="{% url 'weather_page' %}">Thời tiết</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="main-content">
+        <h1 style="color: #fff;">Liên hệ với chúng tôi</h1>
+        <p style="color: #fff;">Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ, vui lòng điền thông tin vào biểu mẫu dưới đây:</p>
+
+        <form method="post" id="contact-form">
+          {% csrf_token %}
+          {% if not request.user.is_authenticated %}
+            <label style="color: #fff;" for="name">Họ và tên:</label><br />
+            <input type="text" id="name" name="name" required /><br /><br />
+
+            <label style="color: #fff;" for="email">Email:</label><br />
+            <input type="email" id="email" name="email" required /><br /><br />
+          {% else %}
+            <p style="color: #fff; width:500px;">Bạn đang đăng nhập. Thông tin liên hệ sẽ được lưu tự động.</p>
+          {% endif %}
+
+          <label style="color: #fff;" for="message">Message:</label><br />
+          <textarea id="message" name="message" rows="5" required></textarea><br /><br />
+
+          <button type="submit" class="btn">Gửi</button>
+        </form>
+      </div>
+    </div>
+    <div id="toast">🎉 Gửi liên hệ thành công!</div>
+
+    <script>
+      const form = document.getElementById('contact-form')
+      const toast = document.getElementById('toast')
+      
+      form.addEventListener('submit', function (event) {
+        // Nếu bạn muốn gửi thật về server thì bỏ dòng dưới
+        event.preventDefault()
+      
+        // Hiển thị toast
+        toast.className = 'toast show'
+      
+        // Ẩn toast sau 3 giây
+        setTimeout(function () {
+          toast.className = toast.className.replace('show', '')
+        }, 3000)
+      
+        form.reset()
+      })
+    </script>
+  </body>
+</html> {% endcomment %}
