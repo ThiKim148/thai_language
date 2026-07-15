@@ -16,14 +16,22 @@ class Course(models.Model):
     level = models.CharField(max_length=50)
     duration = models.CharField(max_length=50)
     lecturer = models.CharField(max_length=100)
+    outcomes = models.JSONField(default=list)
 
     def __str__(self):
         return self.title
 
 class Enrollment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "course"],
+                name="unique_user_course"
+            )
+        ]
 
     def __str__(self):
         return f"{self.user.username} đăng ký {self.course.title}"

@@ -5,19 +5,22 @@ from django.http import JsonResponse
 import requests
 
 from homepage.models import Contact, Course, Enrollment
-from .mock_data import COURSES
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegisterForm
 from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from .forms import CourseForm
 
 
 def index(request):
-    return render(request, "homepage/index.html", {"courses": COURSES})
+    courses = Course.objects.all()
+    return render(request, "homepage/index.html", {"courses": courses})
 
 def courses(request):
-    return render(request, "homepage/courses.html", {"courses": COURSES})
+    courses = Course.objects.all()
+    return render(request, "homepage/courses.html", {"courses": courses})
 
 def about(request):
     return render(request, "homepage/about.html")
@@ -44,9 +47,7 @@ def contact_view(request):
     return render(request, "homepage/contact.html")
 
 def course_detail(request, course_id):
-    course = next((c for c in COURSES if c["id"] == course_id), None)
-    if not course:
-        raise Http404("Course not found")
+    course = get_object_or_404(Course, id=course_id)
     return render(request, "homepage/course_detail.html", {"course": course})
 
 def register_view(request):
@@ -156,3 +157,17 @@ def course_delete(request, pk):
 def contact_list(request):
     contacts = Contact.objects.order_by("-created_at")
     return render(request, "homepage/admin/contact_list.html", {"contacts": contacts})
+
+@require_POST
+@login_required
+def enroll_course(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    enrollment, created = Enrollment.objects.get_or_create(
+        user=request.user,
+        course=course
+    )
+
+    return JsonResponse({
+        "success": True,
+        "created": created
+    })
